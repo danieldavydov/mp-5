@@ -1,55 +1,70 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
-import getCollection, { ALIAS_COLLECTION } from "@/db";
+import { Button, TextField } from "@mui/material";
+import { Textarea } from "@mui/joy";
+import { createAlias } from "@/lib/CreateAlias";
 
 export default function Container() {
   const [url, setUrl] = useState("");
   const [alias, setAlias] = useState("");
+  const [error, setError] = useState("");
+  const [shortUrl, setShortUrl] = useState("");
 
-  function valid_url(url: string): Boolean {
-    return true;
-  }
-
-  function valid_alias(alias: string): Boolean {
+  function valid_url(url: string) {
     return true;
   }
 
   return (
     <div className="m-auto bg-[#fefae0] border border-dashed rounded-lg p-6">
-      <h2 className="text-2xl font-bold mb-4 text-center">Movie Lookup</h2>
-      <p className="text-center">Enter a movie url to get details about it</p>
-      <p className="mb-6 text-center">
-        (<span className="font-bold">Warning :</span> Case Sensitive)
+      <h2 className="text-2xl font-bold mb-4 text-center">
+        Shorten Your URLs!
+      </h2>
+      <p className="text-center">
+        Enter a valid URL and an alias and we'll handle the rest!
       </p>
       <div className="flex flex-col gap-4">
-        <input
-          type="text"
-          placeholder="URL"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          className="border p-2 rounded"
-        />
-        <input
-          type="text"
-          placeholder="Alias"
-          value={alias}
-          onChange={(e) => setAlias(e.target.value)}
-          className="border p-2 rounded"
-        />
-        {url && alias ? (
-          <Link
-            href={`/${url}`}
-            className="bg-[#ccd5ae] text-black py-2 rounded text-center font-bold"
-          >
-            Get Details
-          </Link>
-        ) : (
-          <span className="bg-[#d4a373] text-black py-2 rounded text-center cursor-not-allowed font-bold">
-            Get Details
-          </span>
-        )}
+        <form
+          className="flex flex-col items-center"
+          onSubmit={async (e) => {
+            e.preventDefault();
+            setError("");
+
+            const res = await createAlias(url, alias);
+            if (!res.works) {
+              setError(
+                res.error ||
+                  "Uh Oh! Something went wrong. Please Try Again Later!"
+              );
+              return;
+            }
+          }}
+        >
+          <TextField
+            className="w-[600px] bg-white border rounded-lg"
+            variant="filled"
+            label="URL"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
+            required
+          />
+          <Textarea
+            className="w-[600px] mt-5 "
+            placeholder="Alias"
+            value={alias}
+            onChange={(e) => setAlias(e.target.value)}
+            required
+          />
+
+          <div className="flex flex-col items-center p-5">
+            <Button className="w-full" type="submit" variant="contained">
+              Shorten
+            </Button>
+            {error && (
+              <div className="text-center text-red-600 m-5">{error}</div>
+            )}
+          </div>
+        </form>
       </div>
     </div>
   );
