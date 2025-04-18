@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import getCollection, { ALIAS_COLLECTION } from "@/db";
 
 export default function Container() {
   const [url, setUrl] = useState("");
