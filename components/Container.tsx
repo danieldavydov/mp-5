@@ -4,11 +4,14 @@ import { useState } from "react";
 import { Button, TextField } from "@mui/material";
 import { Textarea } from "@mui/joy";
 import { createAlias } from "@/lib/CreateAlias";
+import Link from "next/link";
 
 export default function Container() {
   const [url, setUrl] = useState("");
   const [alias, setAlias] = useState("");
   const [error, setError] = useState("");
+  const [shortUrl, setShortUrl] = useState("");
+  const main_url = "https://mp-5-seven-nu.vercel.app/";
 
   return (
     <div className="m-auto bg-[#fefae0] border border-dashed rounded-lg p-6">
@@ -33,6 +36,7 @@ export default function Container() {
               );
               return;
             }
+            setShortUrl(`${main_url}${alias}`);
           }}
         >
           <TextField
@@ -57,6 +61,14 @@ export default function Container() {
             </Button>
             {error && (
               <div className="text-center text-red-600 m-5">{error}</div>
+            )}
+            {shortUrl && (
+              <Link
+                href={shortUrl}
+                className="text-center font-bold underline m-5"
+              >
+                {shortUrl}
+              </Link>
             )}
           </div>
         </form>
