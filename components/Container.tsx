@@ -9,11 +9,6 @@ export default function Container() {
   const [url, setUrl] = useState("");
   const [alias, setAlias] = useState("");
   const [error, setError] = useState("");
-  const [shortUrl, setShortUrl] = useState("");
-
-  function valid_url(url: string) {
-    return true;
-  }
 
   return (
     <div className="m-auto bg-[#fefae0] border border-dashed rounded-lg p-6">
@@ -21,7 +16,7 @@ export default function Container() {
         Shorten Your URLs!
       </h2>
       <p className="text-center">
-        Enter a valid URL and an alias and we'll handle the rest!
+        Enter a valid URL and an alias and we&apos;ll handle the rest!
       </p>
       <div className="flex flex-col gap-4">
         <form
