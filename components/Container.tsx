@@ -1,10 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Button, TextField } from "@mui/material";
+import { Button } from "@mui/material";
 import { Textarea } from "@mui/joy";
 import { createAlias } from "@/lib/CreateAlias";
+import { Indie_Flower } from "next/font/google";
 import Link from "next/link";
+
+const indieFlower = Indie_Flower({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 export default function Container() {
   const [url, setUrl] = useState("");
@@ -14,7 +20,7 @@ export default function Container() {
   const main_url = "https://mp-5-seven-nu.vercel.app/";
 
   return (
-    <div className="m-auto bg-[#fefae0] border border-dashed rounded-lg p-6">
+    <div className="m-auto mt-5 max-w-md bg-[#fefae0] border border-dashed rounded-lg p-6">
       <h2 className="text-2xl font-bold mb-4 text-center">
         Shorten Your URLs!
       </h2>
@@ -39,16 +45,15 @@ export default function Container() {
             setShortUrl(`${main_url}${alias}`);
           }}
         >
-          <TextField
-            className="w-[600px] bg-white border rounded-lg"
-            variant="filled"
-            label="URL"
+          <Textarea
+            className="max-w-2xl"
+            placeholder="URL"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
             required
           />
           <Textarea
-            className="w-[600px] mt-5 "
+            className="max-w-2xl mt-5"
             placeholder="Alias"
             value={alias}
             onChange={(e) => setAlias(e.target.value)}
@@ -56,7 +61,16 @@ export default function Container() {
           />
 
           <div className="flex flex-col items-center p-5">
-            <Button className="w-full" type="submit" variant="contained">
+            <Button
+              sx={{
+                backgroundColor: "#ccd5ae",
+                color: "black",
+                fontWeight: "bold",
+                fontFamily: indieFlower.style.fontFamily,
+              }}
+              type="submit"
+              variant="contained"
+            >
               Shorten
             </Button>
             {error && (
